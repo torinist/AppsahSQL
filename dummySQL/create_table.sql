@@ -1,18 +1,5 @@
 CREATE DATABASE appsahDB;
 
-CREATE TABLE appsahdb.contact
-(
-    ID                          INT NOT NULL,
-    CONTENTS                    VARCHAR(256) NOT NULL,
-    CATEGORY                    CHAR(5) NOT NULL,
-    ADDMEM                      CHAR(10) NOT NULL,
-    DELFLAG                     TINYINT,
-    date                        VARCHAR(32),
-    CONSTRAINT PRIMARY KEY (ID),
-    CONSTRAINT contact_ibfk_1 FOREIGN KEY (CATEGORY) REFERENCES null.master_contact_category (ID),
-    CONSTRAINT contact_ibfk_2 FOREIGN KEY (ADDMEM) REFERENCES null.member (ID)
-);
-
 CREATE TABLE appsahdb.master_contact_category
 (
     ID                          CHAR(5) NOT NULL,
@@ -37,6 +24,19 @@ CREATE TABLE appsahdb.member
     DELFLAG                     TINYINT,
     CONSTRAINT PRIMARY KEY (ID),
     CONSTRAINT member_ibfk_1 FOREIGN KEY (MEMCAT) REFERENCES null.master_memcat (ID)
+);
+
+CREATE TABLE appsahdb.contact
+(
+    ID                          INT NOT NULL,
+    CONTENTS                    VARCHAR(256) NOT NULL,
+    CATEGORY                    CHAR(5) NOT NULL,
+    ADDMEM                      CHAR(10) NOT NULL,
+    DELFLAG                     TINYINT,
+    date                        VARCHAR(32),
+    CONSTRAINT PRIMARY KEY (ID),
+    CONSTRAINT contact_ibfk_1 FOREIGN KEY (CATEGORY) REFERENCES null.master_contact_category (ID),
+    CONSTRAINT contact_ibfk_2 FOREIGN KEY (ADDMEM) REFERENCES null.member (ID)
 );
 
 CREATE TABLE appsahdb.top_menu
