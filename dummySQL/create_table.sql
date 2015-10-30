@@ -1,57 +1,17 @@
 CREATE DATABASE IF NOT EXISTS appsahdb;
 
-drop table if exists appsahdb.master_contact_category;
-drop table if exists appsahdb.master_memcat;
-drop table if exists appsahdb.member;
-drop table if exists appsahdb.contact;
-drop table if exists appsahdb.top_menu;
+drop table if exists appsahdb.MASTER_CONTACT_CATEGORY;
+drop table if exists appsahdb.MASTER_MEMCAT;
+drop table if exists appsahdb.MEMBER;
+drop table if exists appsahdb.CONTACT;
+drop table if exists appsahdb.TOP_MENU;
 
-CREATE TABLE appsahdb.master_contact_category
-(
-    ID                          CHAR(5) NOT NULL,
-    NAME                        VARCHAR(128) NOT NULL,
-    DELFLAG                     TINYINT,
-    CONSTRAINT PRIMARY KEY (ID)
-);
+CREATE TABLE MASTER_CONTACT_CATEGORY(ID CHAR(5) NOT NULL, NAME VARCHAR(128) NOT NULL, DELFLAG BOOLEAN DEFAULT 0, PRIMARY KEY(ID)) ENGINE=INNODB;
 
-CREATE TABLE appsahdb.master_memcat
-(
-    ID                          CHAR(5) NOT NULL,
-    NAME                        VARCHAR(128) NOT NULL,
-    DELFLAG                     TINYINT,
-    CONSTRAINT PRIMARY KEY (ID)
-);
+CREATE TABLE MASTER_MEMCAT(ID CHAR(5) NOT NULL, NAME VARCHAR(128) NOT NULL, DELFLAG BOOLEAN DEFAULT 0, PRIMARY KEY(ID)) ENGINE=INNODB;
 
-CREATE TABLE appsahdb.member
-(
-    ID                          CHAR(10) NOT NULL,
-    NAME                        VARCHAR(128) NOT NULL,
-    MEMCAT                      CHAR(5) NOT NULL,
-    DELFLAG                     TINYINT,
-    CONSTRAINT PRIMARY KEY (ID),
-    CONSTRAINT member_ibfk_1 FOREIGN KEY (MEMCAT) REFERENCES appsahdb.master_memcat (ID)
-);
+CREATE TABLE MEMBER(ID CHAR(10) NOT NULL, NAME VARCHAR(128) NOT NULL, MEMCAT CHAR(5) NOT NULL, DELFLAG BOOLEAN DEFAULT 0, PRIMARY KEY(ID), FOREIGN KEY(MEMCAT) REFERENCES MASTER_MEMCAT(ID)) ENGINE=INNODB;
 
-CREATE TABLE appsahdb.contact
-(
-    ID                          INT NOT NULL,
-    CONTENTS                    VARCHAR(256) NOT NULL,
-    CATEGORY                    CHAR(5) NOT NULL,
-    ADDMEM                      CHAR(10) NOT NULL,
-    DELFLAG                     TINYINT,
-    date                        VARCHAR(32),
-    CONSTRAINT PRIMARY KEY (ID),
-    CONSTRAINT contact_ibfk_1 FOREIGN KEY (CATEGORY) REFERENCES appsahdb.master_contact_category (ID),
-    CONSTRAINT contact_ibfk_2 FOREIGN KEY (ADDMEM) REFERENCES appsahdb.member (ID)
-);
+CREATE TABLE CONTACT(ID INTEGER AUTO_INCREMENT, CONTENTS VARCHAR(256) NOT NULL, CATEGORY CHAR(5) NOT NULL, ADDMEM CHAR(10) NOT NULL, DELFLAG BOOLEAN DEFAULT 0, DATE VARCHAR(32), PRIMARY KEY(ID), FOREIGN KEY(CATEGORY) REFERENCES MASTER_CONTACT_CATEGORY(ID), FOREIGN KEY(ADDMEM) REFERENCES MEMBER(ID)) ENGINE=INNODB;
 
-CREATE TABLE appsahdb.top_menu
-(
-    ID                          CHAR(10) NOT NULL,
-    PARENT_ID                   CHAR(10),
-    NAME                        VARCHAR(128) NOT NULL,
-    URL                         VARCHAR(1024),
-    RESTRICTER                  CHAR(5),
-    DELFLAG                     TINYINT,
-    CONSTRAINT PRIMARY KEY (ID)
-);
+CREATE TABLE TOP_MENU(ID CHAR(10) NOT NULL, PARENT_ID CHAR(10), NAME VARCHAR(128) NOT NULL, URL VARCHAR(1024), RESTRICTER CHAR(5), DELFLAG BOOLEAN DEFAULT 0, PRIMARY KEY(ID)) ENGINE=INNODB;
